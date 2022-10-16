@@ -1,0 +1,15 @@
+name: Test coverage and report
+runs:
+  using: composite
+  steps:
+    - uses: thaibault/install-npm-package-dependencies-action@main
+
+    - name: Run tests
+      run: yarn test:coverage:report
+      shell: bash
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: .coverage/lcov.info
