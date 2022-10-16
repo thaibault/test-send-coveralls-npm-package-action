@@ -1,4 +1,8 @@
 name: Test coverage and report
+inputs:
+  github-token:
+    description: 'Github token to authenticate coveralls against github.'
+    required: true
 runs:
   using: composite
   steps:
@@ -11,5 +15,5 @@ runs:
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.github-token }}
         path-to-lcov: .coverage/lcov.info
