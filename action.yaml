@@ -1,14 +1,23 @@
 name: Test coverage and report
+
 inputs:
+  debug:
+    description: Sets "NODE_ENV" to "debug".
+    required: false
+    default: false
   github-token:
     description: 'Github token to authenticate coveralls against github.'
     required: true
+
 runs:
   using: composite
+
   steps:
     - uses: thaibault/install-npm-package-dependencies-action@main
 
     - name: Run tests
+      env:
+        NODE_ENV: ${{ contains(inputs.debug, 'true') && 'debug' }}
       run: yarn test:coverage:report
       shell: bash
 
