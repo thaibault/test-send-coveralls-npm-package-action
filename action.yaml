@@ -14,6 +14,8 @@ runs:
 
   steps:
     - uses: thaibault/install-npm-package-dependencies-action@main
+      with:
+        debug: ${{ inputs.debug }}
 
     - name: Run tests
       env:
