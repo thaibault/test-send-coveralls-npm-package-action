@@ -8,6 +8,10 @@ inputs:
   github-token:
     description: 'Github token to authenticate coveralls against github.'
     required: true
+  timeout-minutes:
+    description: Maximum minutes the tests may run before they are aborted (e.g. to avoid endless running jobs due to hanging test runners).
+    required: false
+    default: 30
 
 runs:
   using: composite
@@ -20,7 +24,8 @@ runs:
     - name: Run tests
       env:
         NODE_ENV: ${{ contains(inputs.debug, 'true') && 'debug' }}
-      run: yarn test:coverage:report
+      # NOTE: Composite action steps do not support "timeout-minutes".
+      run: timeout --kill-after 1m ${{ inputs.timeout-minutes }}m yarn test:coverage:report
       shell: bash
 
     - name: Coveralls
